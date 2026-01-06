@@ -75,14 +75,11 @@ export default function Dashboard() {
             {categories.map((cat, i) => (
               <motion.div
                 key={cat.name}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.05 }}
                 whileHover={{ y: -6, scale: 1.05 }}
                 onClick={() => cat.path && navigate(cat.path)}
                 className="group bg-gradient-to-br from-white to-slate-50 border border-slate-200 rounded-2xl p-6 flex flex-col items-center text-center cursor-pointer hover:border-emerald-500 hover:shadow-xl transition"
               >
-                <div className="text-emerald-600 text-3xl mb-3 group-hover:scale-110 transition">
+                <div className="text-emerald-600 text-3xl mb-3">
                   {cat.icon}
                 </div>
                 <span className="text-sm font-semibold text-slate-700">
@@ -127,39 +124,81 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* LEADERBOARD */}
-        <div className="bg-white/90 backdrop-blur-xl rounded-3xl shadow-xl p-6 max-w-xl border border-slate-100">
-          <h2 className="text-xl font-bold mb-6 flex items-center gap-2">
-            <FaTrophy className="text-amber-500" /> City Leaderboard
-          </h2>
+        {/* 🔥 LEADERBOARD + RIGHT PANEL */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
 
-          <div className="space-y-4">
-            {leaderboard.map((user, i) => (
-              <motion.div
-                key={i}
-                whileHover={{ scale: 1.02 }}
-                className="p-4 rounded-xl border border-slate-200 bg-white hover:shadow-md transition"
-              >
-                <div className="flex justify-between items-center">
-                  <span className="font-semibold text-slate-700">
-                    {i === 0 && "🥇 "}
-                    {i === 1 && "🥈 "}
-                    {i === 2 && "🥉 "}
-                    #{i + 1} {user.name}
-                  </span>
-                  <span className="font-bold text-emerald-600">
-                    {user.points} pts
-                  </span>
-                </div>
+          {/* LEADERBOARD */}
+          <div className="bg-gradient-to-br from-white/90 to-emerald-50/70 backdrop-blur-xl rounded-3xl shadow-2xl p-6 border border-slate-100">
+            <h2 className="text-xl font-extrabold mb-6 flex items-center gap-3">
+              <FaTrophy className="text-amber-500 text-2xl" />
+              Top Civic Contributors
+            </h2>
 
-                <div className="mt-3 h-2 bg-slate-100 rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-emerald-500 rounded-full"
-                    style={{ width: `${(user.points / 320) * 100}%` }}
-                  />
+            <div className="space-y-5">
+              {leaderboard.map((user, i) => (
+                <motion.div
+                  key={i}
+                  whileHover={{ scale: 1.04 }}
+                  className="rounded-2xl p-4 bg-white border shadow-md"
+                >
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <p className="font-bold text-slate-800">
+                        #{i + 1} {user.name}
+                      </p>
+                      <p className="text-xs text-slate-500">Civic Impact</p>
+                    </div>
+                    <p className="font-extrabold text-emerald-600">
+                      {user.points} pts
+                    </p>
+                  </div>
+
+                  <div className="mt-3 h-2 bg-slate-100 rounded-full">
+                    <div
+                      className="h-full bg-emerald-500 rounded-full"
+                      style={{ width: `${(user.points / 320) * 100}%` }}
+                    />
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+
+          {/* RIGHT SIDE CONTENT */}
+          <div className="space-y-6">
+
+            {/* USER IMPACT */}
+            <div className="bg-white/90 backdrop-blur-xl rounded-3xl shadow-xl p-6 border">
+              <h3 className="font-bold text-slate-800 mb-4">
+                Your Civic Impact
+              </h3>
+
+              <div className="grid grid-cols-3 gap-4 text-center">
+                <div className="bg-emerald-50 rounded-xl p-4">
+                  <p className="text-2xl font-extrabold text-emerald-600">12</p>
+                  <p className="text-xs text-slate-500">Reports</p>
                 </div>
-              </motion.div>
-            ))}
+                <div className="bg-blue-50 rounded-xl p-4">
+                  <p className="text-2xl font-extrabold text-blue-600">9</p>
+                  <p className="text-xs text-slate-500">Resolved</p>
+                </div>
+                <div className="bg-amber-50 rounded-xl p-4">
+                  <p className="text-2xl font-extrabold text-amber-600">₹120</p>
+                  <p className="text-xs text-slate-500">Rewards</p>
+                </div>
+              </div>
+            </div>
+
+            {/* MOTIVATION CARD */}
+            <div className="bg-gradient-to-br from-emerald-600 to-emerald-700 text-white rounded-3xl p-6 shadow-xl">
+              <h3 className="font-extrabold text-lg mb-2">
+                Make Indore Better 🌱
+              </h3>
+              <p className="text-sm text-emerald-100">
+                Report issues, earn rewards, and climb the leaderboard by helping your city.
+              </p>
+            </div>
+
           </div>
         </div>
 

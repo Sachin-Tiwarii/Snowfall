@@ -1,8 +1,19 @@
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import rajwada from "../assets/rajwada.png";
 
 export default function Signup() {
   const navigate = useNavigate();
+
+  const [upi, setUpi] = useState("");
+  const [upiValid, setUpiValid] = useState(null);
+
+  // ✅ Basic UPI format validation
+  const verifyUpi = (value) => {
+    setUpi(value);
+    const upiRegex = /^[a-zA-Z0-9.\-_]{2,}@[a-zA-Z]{2,}$/;
+    setUpiValid(upiRegex.test(value));
+  };
 
   return (
     <div className="min-h-screen relative overflow-hidden">
@@ -14,7 +25,7 @@ export default function Signup() {
         className="absolute inset-0 w-full h-full object-cover opacity-40"
       />
 
-      {/* SINGLE overlay */}
+      {/* Overlay */}
       <div className="absolute inset-0 bg-white/60" />
 
       {/* Signup Card */}
@@ -51,6 +62,30 @@ export default function Signup() {
               placeholder="City (Indore)"
             />
 
+            {/* ✅ UPI ID FIELD */}
+            <div>
+              <input
+                value={upi}
+                onChange={(e) => verifyUpi(e.target.value)}
+                className={`w-full p-3.5 border rounded-xl bg-white/80 focus:outline-none focus:ring-2 ${
+                  upiValid === false
+                    ? "border-red-400 focus:ring-red-400"
+                    : "border-slate-300 focus:ring-emerald-600"
+                }`}
+                placeholder="UPI ID (example@upi)"
+              />
+              {upiValid === true && (
+                <p className="text-xs text-emerald-600 mt-1 font-semibold">
+                  ✓ UPI ID looks valid
+                </p>
+              )}
+              {upiValid === false && (
+                <p className="text-xs text-red-500 mt-1 font-semibold">
+                  ✕ Invalid UPI format
+                </p>
+              )}
+            </div>
+
             <input
               type="password"
               className="w-full p-3.5 border border-slate-300 rounded-xl bg-white/80 focus:outline-none focus:ring-2 focus:ring-emerald-600"
@@ -60,8 +95,9 @@ export default function Signup() {
 
           {/* Create Account */}
           <button
+            disabled={!upiValid}
             onClick={() => navigate("/dashboard")}
-            className="w-full mt-6 bg-emerald-600 hover:bg-emerald-700 transition text-white py-3.5 rounded-xl font-semibold shadow-lg shadow-emerald-600/25"
+            className="w-full mt-6 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 transition text-white py-3.5 rounded-xl font-semibold shadow-lg shadow-emerald-600/25"
           >
             Create Account
           </button>
